@@ -1,15 +1,15 @@
-import 'package:chat_app/pages/register_page.dart';
+import 'package:chat_app/pages/login_page.dart';
 import 'package:chat_app/widget/InputField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key, required this.onTap});
-
+class RegisterPage extends StatelessWidget {
+  RegisterPage({super.key, required this.onTap});
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPassController = TextEditingController();
   final void Function()? onTap;
-  void _singedIn() {
+  void _register() {
     return;
   }
 
@@ -31,7 +31,7 @@ class LoginPage extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                "Welcome back, Login to continue",
+                "Lets create an Account for you!",
                 style: TextStyle(
                     fontSize: 16, color: Theme.of(context).colorScheme.primary),
               ),
@@ -51,10 +51,19 @@ class LoginPage extends StatelessWidget {
                 hintText: "Password",
                 isPasswordField: true,
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              FormContainerWidget(
+                controller: _confirmPassController,
+                hintText: "Confirm Password",
+                isPasswordField: true,
+              ),
               SizedBox(height: 30),
+
               //Button
               GestureDetector(
-                onTap: _singedIn,
+                onTap: _register,
                 child: Container(
                   width: double.infinity,
                   height: 60,
@@ -64,7 +73,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   child: const Center(
                     child: Text(
-                      "Login",
+                      "Register",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -78,21 +87,23 @@ class LoginPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Don't have an Account, ",
+                    "Already have an Account, ",
                     style: TextStyle(
                         fontSize: 16,
                         color: Theme.of(context).colorScheme.primary),
                   ),
                   GestureDetector(
                     // onTap: () {
-                    //   Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //           builder: (context) => RegisterPage()));
+                    //   Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => LoginPage(),
+                    //     ),
+                    //   );
                     // },
                     onTap: onTap,
                     child: Text(
-                      "Register now",
+                      "Login now",
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
