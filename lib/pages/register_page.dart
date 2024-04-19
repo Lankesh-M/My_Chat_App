@@ -1,3 +1,4 @@
+import 'package:chat_app/auth/auth_services.dart';
 import 'package:chat_app/pages/login_page.dart';
 import 'package:chat_app/widget/InputField.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,34 @@ class RegisterPage extends StatelessWidget {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPassController = TextEditingController();
   final void Function()? onTap;
-  void _register() {
-    return;
+  void _register(BuildContext context) async {
+    final _auth = AuthServices();
+
+    if (_passwordController.text == _confirmPassController.text) {
+      try {
+        await _auth.signUpWithEmailPassword(
+          _emailController.text,
+          _passwordController.text,
+        );
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(e.toString()),
+          ),
+        );
+      }
+    }
+
+    // They wont match show an error message
+    else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Password don't Match"),
+        ),
+      );
+    }
   }
 
   @override
@@ -63,7 +90,7 @@ class RegisterPage extends StatelessWidget {
 
               //Button
               GestureDetector(
-                onTap: _register,
+                onTap: () => _register(context),
                 child: Container(
                   width: double.infinity,
                   height: 60,

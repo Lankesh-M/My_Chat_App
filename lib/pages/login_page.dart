@@ -1,3 +1,4 @@
+import 'package:chat_app/auth/auth_services.dart';
 import 'package:chat_app/pages/register_page.dart';
 import 'package:chat_app/widget/InputField.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,21 @@ class LoginPage extends StatelessWidget {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final void Function()? onTap;
-  void _singedIn() {
-    return;
+  void _singedIn(BuildContext context) async {
+    final authServices = AuthServices();
+    try {
+      await authServices.signInWithEmailPassword(
+          _emailController.text, _passwordController.text);
+      print('User Successfully Loged In');
+    } catch (e) {
+      // showAboutDialog(context: context)
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(e.toString()),
+        ),
+      );
+    }
   }
 
   @override
@@ -54,7 +68,7 @@ class LoginPage extends StatelessWidget {
               SizedBox(height: 30),
               //Button
               GestureDetector(
-                onTap: _singedIn,
+                onTap: () => _singedIn(context),
                 child: Container(
                   width: double.infinity,
                   height: 60,
