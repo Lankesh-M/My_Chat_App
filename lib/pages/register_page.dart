@@ -1,8 +1,6 @@
 import 'package:chat_app/services/auth/auth_services.dart';
-import 'package:chat_app/pages/login_page.dart';
 import 'package:chat_app/widget/InputField.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key, required this.onTap});
