@@ -1,14 +1,12 @@
 import 'package:chat_app/services/auth/auth_services.dart';
-import 'package:chat_app/pages/register_page.dart';
 import 'package:chat_app/widget/InputField.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key, required this.onTap});
 
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final void Function()? onTap;
   void _singedIn(BuildContext context) async {
     final authServices = AuthServices();

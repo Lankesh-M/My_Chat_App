@@ -1,8 +1,31 @@
+// import 'dart:html';
+// import 'dart:js';
+
+import 'package:chat_app/services/auth/auth_services.dart';
+import 'package:chat_app/services/chat/chat_service.dart';
+import 'package:chat_app/widget/InputField.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ChatPage extends StatelessWidget {
-  const ChatPage({super.key, required this.receiverEmail});
+  ChatPage({super.key, required this.receiverEmail, required this.receiverID});
   final String receiverEmail;
+  final String receiverID;
+  //text controller
+  final TextEditingController _messageController = TextEditingController();
+
+  //chat and outh services
+  final ChatService _chatService = ChatService();
+  final AuthServices _authServices = AuthServices();
+
+  //send message
+  void sendMessage() async {
+    if (_messageController.text.isNotEmpty) {
+      await _chatService.sendMessage(receiverID, _messageController.text);
+      _messageController.clear();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,6 +33,65 @@ class ChatPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(receiverEmail),
       ),
+      body: Column(
+        children: [
+          Expanded(child: _buildMessageList()),
+          _buildUserInput(),
+        ],
+        //user input
+      ),
+    );
+  }
+
+  //build Message List
+  Widget _buildMessageList() {
+    String senderID = _authServices.getCurrentUser()!.uid;
+    return StreamBuilder(
+        stream: _chatService.getMessage(receiverID, senderID),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Text("Error");
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Text("Loading... ");
+          }
+
+          return ListView(
+            children: snapshot.data!.docs
+                .map((doc) => _buildMessageItem(doc))
+                .toList(),
+          );
+        });
+  }
+
+  //build message item
+  Widget _buildMessageItem(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+    //is current user
+    bool isCurrentUser =
+        data['senderID'] == _authServices.getCurrentUser()!.uid;
+
+    //align right if the message is sent by current user
+    var alignment =
+        isCurrentUser ? Alignment.centerRight : Alignment.centerLeft;
+
+    return Container(alignment: alignment, child: Text(data["message"]));
+  }
+
+  //build user input
+  Widget _buildUserInput() {
+    return Row(
+      children: [
+        Expanded(
+          child: FormContainerWidget(
+              controller: _messageController,
+              hintText: "Enga type pannavum..."),
+        ),
+
+        //To Send Message
+        IconButton(onPressed: sendMessage, icon: const Icon(Icons.arrow_upward))
+      ],
     );
   }
 }
