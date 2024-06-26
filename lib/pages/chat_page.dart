@@ -47,7 +47,7 @@ class ChatPage extends StatelessWidget {
   Widget _buildMessageList() {
     String senderID = _authServices.getCurrentUser()!.uid;
     return StreamBuilder(
-        stream: _chatService.getMessage(receiverID, senderID),
+        stream: _chatService.getMessage(senderID, receiverID),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const Text("Error");
@@ -67,23 +67,24 @@ class ChatPage extends StatelessWidget {
   //build message item
   Widget _buildMessageItem(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    print(data);
 
     //is current user
     bool isCurrentUser =
         data['senderID'] == _authServices.getCurrentUser()!.uid;
-
+    // print(data['senderID']); //why this is null? lets find it out... The problem was {senderEmail: t57SUOmCcKdHgRiapvEnFa1Poob2, timestamp: Timestamp(seconds=1719383224, nanoseconds=507000000), message: hii, senderId:
+// QWK7EdbXSfOcEK64khAywCJYGDt2, receiverID: t57SUOmCcKdHgRiapvEnFa1Poob2} senderId != senderID..... Its changed by changing the models/message.dart
+    // print(_authServices.getCurrentUser()!.uid);
     //align right if the message is sent by current user
     var alignment =
         isCurrentUser ? Alignment.centerRight : Alignment.centerLeft;
 
-    return Container(
-      child: Column(
-        crossAxisAlignment:
-            isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-        children: [
-          Container(alignment: alignment, child: Text(data["message"])),
-        ],
-      ),
+    return Column(
+      // crossAxisAlignment: Still its working so it doesn't need crossAxisAlignment
+      //     isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      children: [
+        Container(alignment: alignment, child: Text(data["message"])),
+      ],
     );
   }
 

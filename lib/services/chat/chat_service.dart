@@ -20,9 +20,9 @@ class ChatService {
   //send msg
   Future<void> sendMessage(String receiverID, message) async {
     //get cur user info
-    final String currentUserID = _auth.currentUser!.uid;
-    final String currentEmailID = _auth.currentUser!.email!;
-    final Timestamp timestamp = Timestamp.now();
+    String currentUserID = _auth.currentUser!.uid;
+    String currentEmailID = _auth.currentUser!.email!;
+    Timestamp timestamp = Timestamp.now();
 
     //create an new message
     Message newMessage = Message(
@@ -46,8 +46,8 @@ class ChatService {
   }
 
   //get msg
-  Stream<QuerySnapshot> getMessage(String UserID, otherUserID) {
-    List<String> ids = [UserID, otherUserID];
+  Stream<QuerySnapshot> getMessage(String userID, otherUserID) {
+    List<String> ids = [userID, otherUserID];
     ids.sort();
     String chatroomID = ids.join('<--->');
 
