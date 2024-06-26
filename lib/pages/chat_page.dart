@@ -4,7 +4,9 @@
 import 'package:chat_app/services/auth/auth_services.dart';
 import 'package:chat_app/services/chat/chat_service.dart';
 import 'package:chat_app/widget/InputField.dart';
+import 'package:chat_app/widget/chat_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -83,24 +85,41 @@ class ChatPage extends StatelessWidget {
       // crossAxisAlignment: Still its working so it doesn't need crossAxisAlignment
       //     isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
       children: [
-        Container(alignment: alignment, child: Text(data["message"])),
+        Container(
+            padding: EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 5),
+            alignment: alignment,
+            child: ChatBubble(
+                message: data['message'], isCurrentUser: isCurrentUser)),
       ],
     );
   }
 
   //build user input
   Widget _buildUserInput() {
-    return Row(
-      children: [
-        Expanded(
-          child: FormContainerWidget(
-              controller: _messageController,
-              hintText: "Enga type pannavum..."),
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10, top: 10),
+      child: Row(
+        children: [
+          Expanded(
+            child: FormContainerWidget(
+                controller: _messageController,
+                hintText: "Enga type pannavum..."),
+          ),
 
-        //To Send Message
-        IconButton(onPressed: sendMessage, icon: const Icon(Icons.arrow_upward))
-      ],
+          //To Send Message
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.blue, borderRadius: BorderRadius.circular(15)),
+            margin: EdgeInsets.only(left: 10),
+            child: IconButton(
+                onPressed: sendMessage,
+                icon: const Icon(
+                  Icons.send_rounded,
+                  color: Colors.white,
+                )),
+          )
+        ],
+      ),
     );
   }
 }

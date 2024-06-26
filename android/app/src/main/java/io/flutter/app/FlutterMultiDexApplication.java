@@ -6,7 +6,7 @@
 // as this file may be regenerated.
 
 package io.flutter.app;
-
+// import androidx.multidex.MultiDex;
 import android.app.Application;
 import android.content.Context;
 import androidx.annotation.CallSuper;
