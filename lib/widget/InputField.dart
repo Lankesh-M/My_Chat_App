@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class FormContainerWidget extends StatefulWidget {
@@ -12,6 +13,7 @@ class FormContainerWidget extends StatefulWidget {
   final ValueChanged<String>? onFieldSubmitted;
   final TextInputType? inputType;
   final FocusNode? focusNode;
+  final TextStyle? textstyle;
 
   const FormContainerWidget(
       {super.key,
@@ -25,6 +27,7 @@ class FormContainerWidget extends StatefulWidget {
       this.validator,
       this.onFieldSubmitted,
       this.focusNode,
+      this.textstyle,
       this.inputType});
 
   @override
@@ -45,7 +48,7 @@ class _FormContainerWidgetState extends State<FormContainerWidget> {
       ),
       child: TextFormField(
         focusNode: FocusNode(),
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color: Color.fromARGB(255, 149, 148, 148)),
         controller: widget.controller,
         keyboardType: widget.inputType,
         key: widget.fieldKey,
