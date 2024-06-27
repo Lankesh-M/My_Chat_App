@@ -50,7 +50,7 @@ class RegisterPage extends StatelessWidget {
               Icon(
                 Icons.message,
                 size: 60,
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.primary,
               ),
               SizedBox(
                 height: 10,

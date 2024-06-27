@@ -11,6 +11,7 @@ class FormContainerWidget extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onFieldSubmitted;
   final TextInputType? inputType;
+  final FocusNode? focusNode;
 
   const FormContainerWidget(
       {super.key,
@@ -23,6 +24,7 @@ class FormContainerWidget extends StatefulWidget {
       this.onSaved,
       this.validator,
       this.onFieldSubmitted,
+      this.focusNode,
       this.inputType});
 
   @override
@@ -30,7 +32,7 @@ class FormContainerWidget extends StatefulWidget {
 }
 
 class _FormContainerWidgetState extends State<FormContainerWidget> {
-  bool _obscureText = false;
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +44,12 @@ class _FormContainerWidgetState extends State<FormContainerWidget> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextFormField(
+        focusNode: FocusNode(),
         style: TextStyle(color: Colors.black),
         controller: widget.controller,
         keyboardType: widget.inputType,
         key: widget.fieldKey,
-        obscureText: widget.isPasswordField != true ? _obscureText : false,
+        obscureText: widget.isPasswordField == true ? _obscureText : false,
         onSaved: widget.onSaved,
         validator: widget.validator,
         onFieldSubmitted: widget.onFieldSubmitted,

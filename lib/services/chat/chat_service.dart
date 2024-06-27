@@ -10,10 +10,12 @@ class ChatService {
   Stream<List<Map<String, dynamic>>> gerUserStream() {
     //email id and password
     return _firestore.collection("Users").snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
-        final user = doc.data();
-        return user;
-      }).toList();
+      return snapshot.docs.map(
+        (doc) {
+          final user = doc.data();
+          return user;
+        },
+      ).toList();
     });
   }
 
